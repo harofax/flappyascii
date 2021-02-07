@@ -1,5 +1,5 @@
 use bracket_lib::prelude::*;
-use super::{Player, SCREEN_WIDTH, SCREEN_HEIGHT};
+use super::{Player, SCREEN_HEIGHT};
 
 pub struct Obstacle {
     pub x: i32,      // x pos in world space
@@ -23,28 +23,56 @@ impl Obstacle {
 
         for y in 0..self.gap_y - half_size {
             ctx.set(
+                screen_x - 1,
+                y,
+                LIGHT_GREEN,
+                DARK_CYAN,
+                to_cp437('#'),
+            );
+            ctx.set(
                 screen_x,
                 y,
-                RED,
-                BLACK,
-                to_cp437('|'),
+                LIGHT_GREEN,
+                DARK_CYAN,
+                to_cp437('#'),
+            );
+            ctx.set(
+                screen_x + 1,
+                y,
+                LIGHT_GREEN,
+                DARK_CYAN,
+                to_cp437('#'),
             );
         }
 
         for y in self.gap_y + half_size..SCREEN_HEIGHT {
             ctx.set(
+                screen_x - 1,
+                y,
+                LIGHT_GREEN,
+                DARK_CYAN,
+                to_cp437('#'),
+            );
+            ctx.set(
                 screen_x,
                 y,
-                RED,
-                BLACK,
-                to_cp437('|'),
+                LIGHT_GREEN,
+                DARK_CYAN,
+                to_cp437('#'),
+            );
+            ctx.set(
+                screen_x + 1,
+                y,
+                LIGHT_GREEN,
+                DARK_CYAN,
+                to_cp437('#'),
             );
         }
     }
 
     pub fn hit_obstacle(&self, player: &Player) -> bool {
         let half_size = self.size / 2;
-        let does_x_match = player.x == self.x;
+        let does_x_match = player.x + player.screen_x == self.x;
         let player_above_gap = player.y < self.gap_y - half_size;
         let player_below_gap = player.y > self.gap_y + half_size;
 
